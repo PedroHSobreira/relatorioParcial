@@ -1,5 +1,6 @@
 
 from pathlib import Path
+import math
 
 import pandas as pd
 import networkx as nx
@@ -17,7 +18,6 @@ PASTA_RESULTADOS.mkdir(exist_ok=True)
 
 # ============================================================
 # 1. DADOS DAS LINHAS
-# A ordem representa a sequencia usada no modelo inicial.
 # ============================================================
 
 linhas = {
@@ -84,7 +84,7 @@ linhas = {
 
 # ============================================================
 # 2. CRIACAO DOS VERTICES
-# Cada ocorrencia de uma estacao em uma linha tem ID proprio.
+# Cada ocorrencia estacao-linha tem seu proprio identificador.
 # ============================================================
 
 G = nx.Graph()
@@ -116,26 +116,8 @@ for linha, estacoes in linhas.items():
         )
 
 
-# Modelo simplificado da ramificacao da Linha 17.
-# Washington Luis e conectado a Brooklin Paulista.
-# A operacao real precisa ser consultada separadamente.
-
-G.remove_edge(
-    "L17|Aeroporto de Congonhas",
-    "L17|Washington Luis"
-)
-
-G.add_edge(
-    "L17|Brooklin Paulista",
-    "L17|Washington Luis",
-    tipo="percurso"
-)
-
-
 # ============================================================
 # 4. CONEXOES DE TRANSFERENCIA
-# Estas conexoes formam a hipotese inicial do modelo.
-# Devem ser conferidas com as fontes oficiais.
 # ============================================================
 
 transferencias = [
@@ -160,7 +142,7 @@ for origem, destino in transferencias:
 
 
 # ============================================================
-# 5. VALIDACAO DOS DADOS E DA ESTRUTURA
+# 5. VALIDACAO DA ESTRUTURA
 # ============================================================
 
 numero_vertices = G.number_of_nodes()
@@ -187,25 +169,11 @@ arestas_sem_tipo = [
 vertices_isolados = list(nx.isolates(G))
 componentes = list(nx.connected_components(G))
 
-# Conferir se todas as transferencias referenciam vertices existentes.
 transferencias_invalidas = [
     (origem, destino)
     for origem, destino in transferencias
-    if origem not in G.nodes or destino not in G.nodes
+    if origem not in G or destino not in G
 ]
-
-# Conferir IDs duplicados na lista de vertices esperados.
-ids_esperados = [
-    f"{linha}|{estacao}"
-    for linha, estacoes in linhas.items()
-    for estacao in estacoes
-]
-
-ids_duplicados = sorted({
-    identificador
-    for identificador in ids_esperados
-    if ids_esperados.count(identificador) > 1
-})
 
 print("\n========== VALIDACAO DO GRAFO ==========")
 print(f"Vertices: {numero_vertices}")
@@ -216,7 +184,6 @@ print(f"Componentes conexas: {len(componentes)}")
 print(f"Vertices isolados: {len(vertices_isolados)}")
 print(f"Arestas sem tipo valido: {len(arestas_sem_tipo)}")
 print(f"Transferencias invalidas: {len(transferencias_invalidas)}")
-print(f"IDs duplicados: {len(ids_duplicados)}")
 
 if vertices_isolados:
     print("Vertices isolados:", vertices_isolados)
@@ -226,80 +193,270 @@ if len(componentes) > 1:
     for i, componente in enumerate(componentes, start=1):
         print(f"Componente {i}: {len(componente)} vertices")
 
-# Estas verificacoes confirmam os totais esperados para
-# os dados cadastrados, nao a fidelidade da rede real.
 assert numero_vertices == 102, "Quantidade inesperada de vertices."
 assert len(arestas_percurso) == 95, "Quantidade inesperada de percursos."
 assert len(arestas_transferencia) == 10, "Quantidade inesperada de transferencias."
 assert numero_arestas == 105, "Quantidade inesperada de arestas."
-assert len(arestas_sem_tipo) == 0, "Existe aresta sem tipo valido."
-assert len(transferencias_invalidas) == 0, "Existe transferencia com vertice inexistente."
-assert len(ids_duplicados) == 0, "Existem IDs duplicados."
 assert len(vertices_isolados) == 0, "Existem vertices isolados."
+assert len(arestas_sem_tipo) == 0, "Existe aresta sem tipo valido."
+assert len(transferencias_invalidas) == 0, "Transferencia invalida."
 
-if len(componentes) == 1:
-    print("Conectividade estrutural: grafo conectado.")
-else:
-    print("Conectividade estrutural: grafo desconectado.")
-
-print("Validacao estrutural concluida.")
+print(
+    "Estado do grafo:",
+    "conectado" if len(componentes) == 1 else "desconectado"
+)
 print("========================================")
 
 
 # ============================================================
-# 6. BUSCA EM LARGURA (BFS) E PROFUNDIDADE (DFS)
+# 6. BUSCAS BFS E DFS
 # ============================================================
 
 origem_busca = "L1|Jabaquara"
 
-bfs = list(nx.bfs_tree(G, origem_busca).nodes())
-dfs = list(nx.dfs_tree(G, origem_busca).nodes())
+arvore_bfs_inicial = nx.bfs_tree(G, origem_busca)
+arvore_dfs_inicial = nx.dfs_tree(G, origem_busca)
+
+bfs = list(arvore_bfs_inicial.nodes())
+dfs = list(arvore_dfs_inicial.nodes())
 
 print("\n--- BUSCA EM LARGURA (BFS) ---")
-print("Origem: Jabaquara")
-print(f"Vertices visitados: {len(bfs)}")
+print(f"Origem: {G.nodes[origem_busca]['nome']}")
+print(f"Vertices alcancados: {len(bfs)}")
 print("Primeiros 20 vertices:")
 print(" -> ".join(bfs[:20]))
 
 print("\n--- BUSCA EM PROFUNDIDADE (DFS) ---")
-print("Origem: Jabaquara")
-print(f"Vertices visitados: {len(dfs)}")
+print(f"Origem: {G.nodes[origem_busca]['nome']}")
+print(f"Vertices alcancados: {len(dfs)}")
 print("Primeiros 20 vertices:")
 print(" -> ".join(dfs[:20]))
 
 
-# ============================================================
-# 7. CAMINHO MINIMO
-# O resultado conta arestas, nao minutos de viagem.
-# ============================================================
+# Pares de estacoes usados nos testes.
+pares_estacoes = [
+    ("L1|Jabaquara", "L3|Palmeiras-Barra Funda"),
+    ("L2|Vila Madalena", "L15|Jardim Colonial"),
+    ("L5|Capao Redondo", "L4|Vila Sonia")
+]
 
-origem = "L1|Jabaquara"
-destino = "L3|Palmeiras-Barra Funda"
+resultados_buscas = []
 
-print("\n--- CAMINHO MINIMO ---")
 
-try:
-    caminho = nx.shortest_path(
+for indice_teste, (origem_teste, destino_teste) in enumerate(
+    pares_estacoes, start=1
+):
+    print("\n========================================")
+    print(f"TESTE {indice_teste}")
+    print(f"Origem: {origem_teste}")
+    print(f"Destino: {destino_teste}")
+
+    if origem_teste not in G or destino_teste not in G:
+        print("Erro: origem ou destino nao existe no grafo.")
+        continue
+
+    # Caminho minimo: grafo nao ponderado.
+    caminho_bfs = nx.shortest_path(
         G,
-        source=origem,
-        target=destino
+        source=origem_teste,
+        target=destino_teste
     )
 
-    print(f"Origem: {G.nodes[origem]['nome']}")
-    print(f"Destino: {G.nodes[destino]['nome']}")
-    print(f"Numero de arestas: {len(caminho) - 1}")
+    # Caminho na arvore produzida pela busca DFS.
+    arvore_dfs = nx.dfs_tree(G, source=origem_teste)
 
-    for vertice in caminho:
-        linha = G.nodes[vertice]["linha"]
-        nome = G.nodes[vertice]["nome"]
-        print(f"{linha} - {nome}")
+    if destino_teste in arvore_dfs:
+        caminho_dfs = nx.shortest_path(
+            arvore_dfs,
+            source=origem_teste,
+            target=destino_teste
+        )
+    else:
+        caminho_dfs = []
 
-except nx.NetworkXNoPath:
-    print("Nao existe caminho entre as estacoes escolhidas.")
+    arestas_bfs = len(caminho_bfs) - 1
+    arestas_dfs = len(caminho_dfs) - 1 if caminho_dfs else None
+
+    print("\nCaminho BFS:")
+    print(" -> ".join(
+        f"{G.nodes[v]['nome']} ({G.nodes[v]['linha']})"
+        for v in caminho_bfs
+    ))
+    print(f"Estacoes no caminho: {len(caminho_bfs)}")
+    print(f"Arestas no caminho: {arestas_bfs}")
+
+    print("\nCaminho na arvore DFS:")
+    if caminho_dfs:
+        print(" -> ".join(
+            f"{G.nodes[v]['nome']} ({G.nodes[v]['linha']})"
+            for v in caminho_dfs
+        ))
+        print(f"Estacoes no caminho: {len(caminho_dfs)}")
+        print(f"Arestas no caminho: {arestas_dfs}")
+    else:
+        print("Destino nao alcancado pela DFS.")
+
+    resultados_buscas.append({
+        "Teste": indice_teste,
+        "Origem": origem_teste,
+        "Destino": destino_teste,
+        "Caminho_BFS": " -> ".join(caminho_bfs),
+        "Estacoes_BFS": len(caminho_bfs),
+        "Arestas_BFS": arestas_bfs,
+        "Caminho_DFS": " -> ".join(caminho_dfs) if caminho_dfs else "",
+        "Estacoes_DFS": len(caminho_dfs) if caminho_dfs else 0,
+        "Arestas_DFS": arestas_dfs,
+        "Vertices_alcancados_BFS": len(nx.bfs_tree(G, origem_teste)),
+        "Vertices_alcancados_DFS": len(arvore_dfs)
+    })
 
 
 # ============================================================
-# 8. GRAU E CENTRALIDADE DE INTERMEDIACAO
+# 7. EXPORTACAO DOS RESULTADOS DAS BUSCAS
+# ============================================================
+
+df_buscas = pd.DataFrame(resultados_buscas)
+
+df_buscas.to_csv(
+    PASTA_RESULTADOS / "resultados_buscas.csv",
+    index=False,
+    encoding="utf-8-sig"
+)
+
+
+# ============================================================
+# 8. IMAGENS DOS CAMINHOS BFS
+# Circulos numerados; legenda proxima, alinhada em tres colunas.
+# ============================================================
+
+for resultado in resultados_buscas:
+
+    caminho = resultado["Caminho_BFS"].split(" -> ")
+    indice_teste = resultado["Teste"]
+
+    # Criar somente as arestas consecutivas do caminho.
+    grafo_caminho = nx.Graph()
+    grafo_caminho.add_nodes_from(caminho)
+
+    grafo_caminho.add_edges_from(
+        (caminho[i], caminho[i + 1])
+        for i in range(len(caminho) - 1)
+    )
+
+    # Posicoes horizontais para manter a ordem do percurso.
+    posicoes = {
+        estacao: (i, 0)
+        for i, estacao in enumerate(caminho)
+    }
+
+    # A legenda fica em um eixo separado, logo abaixo do desenho.
+    fig = plt.figure(
+        figsize=(max(13, len(caminho) * 0.72), 8)
+    )
+
+    grade = fig.add_gridspec(
+        2, 1,
+        height_ratios=[2.1, 1.35],
+        hspace=0.04
+    )
+
+    ax_grafo = fig.add_subplot(grade[0])
+    ax_legenda = fig.add_subplot(grade[1])
+
+    # Desenhar as ligacoes do caminho.
+    nx.draw_networkx_edges(
+        grafo_caminho,
+        posicoes,
+        ax=ax_grafo,
+        width=1.8
+    )
+
+    # Desenhar as estacoes.
+    nx.draw_networkx_nodes(
+        grafo_caminho,
+        posicoes,
+        ax=ax_grafo,
+        node_size=650,
+        edgecolors="black",
+        linewidths=1
+    )
+
+    # Numeracao dos circulos na ordem do caminho.
+    rotulos_numericos = {
+        estacao: str(i + 1)
+        for i, estacao in enumerate(caminho)
+    }
+
+    nx.draw_networkx_labels(
+        grafo_caminho,
+        posicoes,
+        labels=rotulos_numericos,
+        ax=ax_grafo,
+        font_size=10,
+        font_weight="bold"
+    )
+
+    nome_origem = G.nodes[caminho[0]]["nome"]
+    nome_destino = G.nodes[caminho[-1]]["nome"]
+
+    ax_grafo.set_title(
+        f"Caminho BFS {indice_teste}: "
+        f"{nome_origem} -> {nome_destino}\n"
+        f"{len(caminho)} ocorrencias de estacao | "
+        f"{resultado['Arestas_BFS']} arestas",
+        fontsize=13,
+        fontweight="bold",
+        pad=12
+    )
+
+    ax_grafo.set_xlim(-0.7, len(caminho) - 0.3)
+    ax_grafo.set_ylim(-0.8, 0.8)
+    ax_grafo.axis("off")
+
+    # Montar legenda em tres colunas.
+    ax_legenda.axis("off")
+
+    quantidade_colunas = 3
+    quantidade_linhas = math.ceil(
+        len(caminho) / quantidade_colunas
+    )
+
+    for indice, estacao in enumerate(caminho):
+        coluna = indice // quantidade_linhas
+        linha_legenda = indice % quantidade_linhas
+
+        x = 0.02 + coluna * 0.33
+        y = 0.96 - linha_legenda * (
+            0.90 / max(quantidade_linhas, 1)
+        )
+
+        nome = G.nodes[estacao]["nome"]
+        linha = G.nodes[estacao]["linha"]
+
+        texto = f"{indice + 1}. {nome} ({linha})"
+
+        ax_legenda.text(
+            x,
+            y,
+            texto,
+            transform=ax_legenda.transAxes,
+            fontsize=9,
+            fontweight="bold",
+            ha="left",
+            va="top"
+        )
+
+    plt.savefig(
+        PASTA_RESULTADOS / f"caminho_bfs_{indice_teste}.png",
+        dpi=250,
+        bbox_inches="tight"
+    )
+
+    plt.close(fig)
+
+
+# ============================================================
+# 9. GRAU E CENTRALIDADE DE INTERMEDIACAO
 # ============================================================
 
 graus = dict(G.degree())
@@ -316,16 +473,16 @@ for vertice in G.nodes():
         "Centralidade_intermediacao": centralidade[vertice]
     })
 
-df = pd.DataFrame(dados_estacoes)
+df_metricas = pd.DataFrame(dados_estacoes)
 
-df = df.sort_values(
+df_metricas = df_metricas.sort_values(
     by="Centralidade_intermediacao",
     ascending=False
 )
 
 print("\n--- 10 VERTICES COM MAIOR CENTRALIDADE ---")
 print(
-    df.head(10).to_string(
+    df_metricas.head(10).to_string(
         index=False,
         formatters={
             "Centralidade_intermediacao": "{:.4f}".format
@@ -333,35 +490,47 @@ print(
     )
 )
 
-
-# ============================================================
-# 9. EXPORTACAO DOS DADOS
-# ============================================================
-
-df.to_csv(
+df_metricas.to_csv(
     PASTA_RESULTADOS / "metricas_estacoes.csv",
     index=False,
     encoding="utf-8-sig"
 )
 
-dados_arestas = []
 
-for origem_aresta, destino_aresta, atributos in G.edges(data=True):
-    dados_arestas.append({
-        "Origem": origem_aresta,
-        "Destino": destino_aresta,
-        "Tipo": atributos.get("tipo", "nao informado")
-    })
-
-df_arestas = pd.DataFrame(dados_arestas)
-
-df_arestas.to_csv(
-    PASTA_RESULTADOS / "conexoes.csv",
-    index=False,
-    encoding="utf-8-sig"
+# Grafico das dez maiores centralidades.
+dez_maiores = df_metricas.head(10).sort_values(
+    by="Centralidade_intermediacao",
+    ascending=True
 )
 
-# Exportar tambem os vertices para documentar a base utilizada.
+fig, ax = plt.subplots(figsize=(10, 6))
+
+ax.barh(
+    dez_maiores["Vertice"],
+    dez_maiores["Centralidade_intermediacao"]
+)
+
+ax.set_title(
+    "Dez vertices com maior centralidade de intermediacao"
+)
+ax.set_xlabel("Centralidade de intermediacao")
+ax.set_ylabel("Vertice (linha e estacao)")
+
+plt.tight_layout()
+
+plt.savefig(
+    PASTA_RESULTADOS / "centralidade_intermediacao.png",
+    dpi=250,
+    bbox_inches="tight"
+)
+
+plt.close(fig)
+
+
+# ============================================================
+# 10. EXPORTACAO DE VERTICES E CONEXOES
+# ============================================================
+
 df_vertices = pd.DataFrame([
     {
         "Vertice": vertice,
@@ -377,49 +546,119 @@ df_vertices.to_csv(
     encoding="utf-8-sig"
 )
 
+df_arestas = pd.DataFrame([
+    {
+        "Origem": origem,
+        "Destino": destino,
+        "Tipo": dados.get("tipo", "nao informado")
+    }
+    for origem, destino, dados in G.edges(data=True)
+])
+
+df_arestas.to_csv(
+    PASTA_RESULTADOS / "conexoes.csv",
+    index=False,
+    encoding="utf-8-sig"
+)
+
 
 # ============================================================
-# 10. VISUALIZACAO SIMPLES DO GRAFO
-# Sem nomes de estacoes, apenas vertices numerados.
-# A disposicao circular e visual, nao geografica.
+# 11. TABELA COMPARATIVA BFS E DFS
 # ============================================================
 
-plt.figure(figsize=(12, 12))
+if resultados_buscas:
+    dados_tabela = []
 
-posicoes = nx.circular_layout(G, scale=1)
+    for resultado in resultados_buscas:
+        dados_tabela.append([
+            resultado["Teste"],
+            G.nodes[resultado["Origem"]]["nome"],
+            G.nodes[resultado["Destino"]]["nome"],
+            resultado["Estacoes_BFS"],
+            resultado["Arestas_BFS"],
+            resultado["Estacoes_DFS"],
+            resultado["Arestas_DFS"]
+            if resultado["Arestas_DFS"] is not None else "-"
+        ])
+
+    colunas = [
+        "Teste", "Origem", "Destino",
+        "Estacoes BFS", "Arestas BFS",
+        "Estacoes DFS", "Arestas DFS"
+    ]
+
+    fig, ax = plt.subplots(figsize=(13, 4.5))
+    ax.axis("off")
+
+    tabela = ax.table(
+        cellText=dados_tabela,
+        colLabels=colunas,
+        loc="center",
+        cellLoc="center"
+    )
+
+    tabela.auto_set_font_size(False)
+    tabela.set_fontsize(9)
+    tabela.scale(1, 1.8)
+
+    ax.set_title(
+        "Comparacao dos caminhos BFS e DFS",
+        fontsize=14,
+        fontweight="bold",
+        pad=18
+    )
+
+    plt.tight_layout()
+
+    plt.savefig(
+        PASTA_RESULTADOS / "comparacao_buscas.png",
+        dpi=250,
+        bbox_inches="tight"
+    )
+
+    plt.close(fig)
+
+
+# ============================================================
+# 12. GRAFO GERAL
+# ============================================================
+
+fig, ax = plt.subplots(figsize=(12, 12))
+
+posicoes_gerais = nx.circular_layout(G, scale=1)
 
 nx.draw_networkx_edges(
     G,
-    posicoes,
-    edge_color="blue",
+    posicoes_gerais,
+    ax=ax,
     width=1.0,
     alpha=0.8
 )
 
 nx.draw_networkx_nodes(
     G,
-    posicoes,
-    node_color="lightgreen",
-    edgecolors="black",
+    posicoes_gerais,
+    ax=ax,
     node_size=300,
+    edgecolors="black",
     linewidths=0.8
 )
 
-rotulos = {
+rotulos_gerais = {
     vertice: str(i + 1)
     for i, vertice in enumerate(G.nodes())
 }
 
 nx.draw_networkx_labels(
     G,
-    posicoes,
-    labels=rotulos,
-    font_size=8,
-    font_color="black"
+    posicoes_gerais,
+    labels=rotulos_gerais,
+    ax=ax,
+    font_size=8
 )
 
-plt.title("Rede metroviaria de Sao Paulo - Modelo em grafo")
-plt.axis("off")
+ax.set_title("Rede metroviaria de Sao Paulo - Modelo em grafo")
+ax.axis("off")
 plt.tight_layout()
 
 plt.savefig(
@@ -428,17 +667,30 @@ plt.savefig(
     bbox_inches="tight"
 )
 
-plt.close()
+plt.close(fig)
 
 
 # ============================================================
-# 11. RESUMO FINAL
+# 13. RESUMO FINAL
 # ============================================================
 
 print("\n========== EXECUCAO CONCLUIDA ==========")
 print(f"Arquivos salvos em: {PASTA_RESULTADOS.resolve()}")
-print("- estacoes.csv")
-print("- conexoes.csv")
-print("- metricas_estacoes.csv")
-print("- grafo_rede_metroviaria.png")
+
+arquivos_gerados = [
+    "estacoes.csv",
+    "conexoes.csv",
+    "metricas_estacoes.csv",
+    "resultados_buscas.csv",
+    "comparacao_buscas.png",
+    "centralidade_intermediacao.png",
+    "grafo_rede_metroviaria.png"
+]
+
+for arquivo in arquivos_gerados:
+    print(f"- {arquivo}")
+
+for resultado in resultados_buscas:
+    print(f"- caminho_bfs_{resultado['Teste']}.png")
+
 print("========================================")
