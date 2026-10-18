@@ -1,0 +1,103 @@
+﻿Vertice,Estacao,Linha,Grau,Centralidade_intermediacao
+L2|Chacara Klabin,Chacara Klabin,L2,3,0.37722772277227723
+L5|Santa Cruz,Santa Cruz,L5,3,0.37683168316831683
+L5|Hospital Sao Paulo,Hospital Sao Paulo,L5,2,0.3441584158415842
+L5|AACD-Servidor,AACD-Servidor,L5,2,0.3326732673267327
+L1|Paraiso,Paraiso,L1,3,0.3316831683168317
+L1|Se,Se,L1,3,0.3237623762376238
+L5|Moema,Moema,L5,2,0.3207920792079208
+L5|Campo Belo,Campo Belo,L5,3,0.3116831683168317
+L1|Vergueiro,Vergueiro,L1,2,0.3112871287128713
+L5|Eucaliptos,Eucaliptos,L5,2,0.3085148514851485
+L1|Sao Joaquim,Sao Joaquim,L1,2,0.30435643564356435
+L1|Japao-Liberdade,Japao-Liberdade,L1,2,0.29881188118811886
+L2|Ana Rosa,Ana Rosa,L2,3,0.2948514851485149
+L1|Ana Rosa,Ana Rosa,L1,3,0.27970297029702973
+L2|Paraiso,Paraiso,L2,3,0.2600990099009901
+L2|Santos-Imigrantes,Santos-Imigrantes,L2,2,0.25544554455445545
+L1|Santa Cruz,Santa Cruz,L1,3,0.25445544554455446
+L3|Se,Se,L3,3,0.24673267326732676
+L2|Alto do Ipiranga,Alto do Ipiranga,L2,2,0.2411881188118812
+L2|Sacoma,Sacoma,L2,2,0.22653465346534654
+L4|Paulista,Paulista,L4,3,0.21801980198019805
+L1|Vila Mariana,Vila Mariana,L1,2,0.21742574257425745
+L2|Tamanduatei,Tamanduatei,L2,2,0.2114851485148515
+L2|Consolacao,Consolacao,L2,3,0.2108910891089109
+L5|Chacara Klabin,Chacara Klabin,L5,2,0.19841584158415843
+L2|Vila Prudente,Vila Prudente,L2,2,0.19603960396039605
+L3|Pedro II,Pedro II,L3,2,0.19603960396039605
+L2|Brigadeiro,Brigadeiro,L2,2,0.19564356435643565
+L2|Trianon-Masp,Trianon-Masp,L2,2,0.1900990099009901
+L15|Vila Prudente,Vila Prudente,L15,2,0.18019801980198022
+L3|Bras,Bras,L3,2,0.18019801980198022
+L5|Brooklin,Brooklin,L5,2,0.16396039603960397
+L15|Oratorio,Oratorio,L15,2,0.16396039603960397
+L3|Bresser-Mooca,Bresser-Mooca,L3,2,0.16396039603960397
+L1|Luz,Luz,L1,3,0.1598019801980198
+L3|Belem,Belem,L3,2,0.14732673267326735
+L5|Borba Gato,Borba Gato,L5,2,0.14732673267326735
+L15|Sao Lucas,Sao Lucas,L15,2,0.14732673267326735
+L1|Sao Bento,Sao Bento,L1,2,0.13455445544554456
+L17|Campo Belo,Campo Belo,L17,3,0.13267326732673268
+L1|Tiradentes,Tiradentes,L1,2,0.1302970297029703
+L5|Alto da Boa Vista,Alto da Boa Vista,L5,2,0.1302970297029703
+L4|Republica,Republica,L4,3,0.1302970297029703
+L15|Camilo Haddad,Camilo Haddad,L15,2,0.1302970297029703
+L3|Tatuape,Tatuape,L3,2,0.1302970297029703
+L4|Higienopolis-Mackenzie,Higienopolis-Mackenzie,L4,2,0.12653465346534654
+L5|Adolfo Pinheiro,Adolfo Pinheiro,L5,2,0.11287128712871287
+L4|Oscar Freire,Oscar Freire,L4,2,0.11287128712871287
+L3|Carrao,Carrao,L3,2,0.11287128712871287
+L15|Vila Tolstoi,Vila Tolstoi,L15,2,0.11287128712871287
+L1|Armenia,Armenia,L1,2,0.11287128712871287
+L3|Republica,Republica,L3,3,0.10504950495049506
+L1|Portuguesa-Tiete,Portuguesa-Tiete,L1,2,0.09504950495049505
+L3|Penha,Penha,L3,2,0.09504950495049505
+L15|Vila Uniao,Vila Uniao,L15,2,0.09504950495049505
+L4|Fradique Coutinho,Fradique Coutinho,L4,2,0.09504950495049505
+L5|Largo Treze,Largo Treze,L5,2,0.09504950495049505
+L4|Faria Lima,Faria Lima,L4,2,0.07683168316831683
+L15|Jardim Planalto,Jardim Planalto,L15,2,0.07683168316831683
+L1|Praca da Arvore,Praca da Arvore,L1,2,0.07683168316831683
+L3|Vila Matilde,Vila Matilde,L3,2,0.07683168316831683
+L5|Santo Amaro,Santo Amaro,L5,2,0.07683168316831683
+L1|Carandiru,Carandiru,L1,2,0.07683168316831683
+L3|Anhangabau,Anhangabau,L3,2,0.07306930693069308
+L1|Saude,Saude,L1,2,0.05821782178217822
+L1|Santana,Santana,L1,2,0.05821782178217822
+L4|Pinheiros,Pinheiros,L4,2,0.05821782178217822
+L5|Giovanni Gronchi,Giovanni Gronchi,L5,2,0.05821782178217822
+L17|Vereador Jose Diniz,Vereador Jose Diniz,L17,2,0.05821782178217822
+L15|Sapopemba,Sapopemba,L15,2,0.05821782178217822
+L3|Guilhermina-Esperanca,Guilhermina-Esperanca,L3,2,0.05821782178217822
+L4|Luz,Luz,L4,2,0.04257425742574258
+L17|Brooklin Paulista,Brooklin Paulista,L17,3,0.039405940594059406
+L17|Vila Cordeiro,Vila Cordeiro,L17,2,0.03920792079207921
+L15|Fazenda da Juta,Fazenda da Juta,L15,2,0.03920792079207921
+L3|Santa Cecilia,Santa Cecilia,L3,2,0.03920792079207921
+L5|Vila das Belezas,Vila das Belezas,L5,2,0.03920792079207921
+L2|Clinicas,Clinicas,L2,2,0.03920792079207921
+L1|Jardim Sao Paulo-Ayrton Senna,Jardim Sao Paulo-Ayrton Senna,L1,2,0.03920792079207921
+L1|Sao Judas,Sao Judas,L1,2,0.03920792079207921
+L4|Butanta,Butanta,L4,2,0.03920792079207921
+L3|Patriarca-Vila Re,Patriarca-Vila Re,L3,2,0.03920792079207921
+L1|Parada Inglesa,Parada Inglesa,L1,2,0.019801980198019802
+L2|Sumare,Sumare,L2,2,0.019801980198019802
+L1|Conceicao,Conceicao,L1,2,0.019801980198019802
+L17|Chucri Zaidan,Chucri Zaidan,L17,2,0.019801980198019802
+L15|Sao Mateus,Sao Mateus,L15,2,0.019801980198019802
+L3|Marechal Deodoro,Marechal Deodoro,L3,2,0.019801980198019802
+L3|Artur Alvim,Artur Alvim,L3,2,0.019801980198019802
+L5|Campo Limpo,Campo Limpo,L5,2,0.019801980198019802
+L4|Sao Paulo-Morumbi,Sao Paulo-Morumbi,L4,2,0.019801980198019802
+L2|Vila Madalena,Vila Madalena,L2,1,0.0
+L1|Tucuruvi,Tucuruvi,L1,1,0.0
+L1|Jabaquara,Jabaquara,L1,1,0.0
+L3|Corinthians-Itaquera,Corinthians-Itaquera,L3,1,0.0
+L5|Capao Redondo,Capao Redondo,L5,1,0.0
+L3|Palmeiras-Barra Funda,Palmeiras-Barra Funda,L3,1,0.0
+L4|Vila Sonia,Vila Sonia,L4,1,0.0
+L15|Jardim Colonial,Jardim Colonial,L15,1,0.0
+L17|Morumbi,Morumbi,L17,1,0.0
+L17|Aeroporto de Congonhas,Aeroporto de Congonhas,L17,1,0.0
+L17|Washington Luis,Washington Luis,L17,1,0.0

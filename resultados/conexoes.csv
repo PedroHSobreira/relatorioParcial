@@ -1,0 +1,106 @@
+﻿Origem,Destino,Tipo
+L1|Jabaquara,L1|Conceicao,percurso
+L1|Conceicao,L1|Sao Judas,percurso
+L1|Sao Judas,L1|Saude,percurso
+L1|Saude,L1|Praca da Arvore,percurso
+L1|Praca da Arvore,L1|Santa Cruz,percurso
+L1|Santa Cruz,L1|Vila Mariana,percurso
+L1|Santa Cruz,L5|Santa Cruz,transferencia
+L1|Vila Mariana,L1|Ana Rosa,percurso
+L1|Ana Rosa,L1|Paraiso,percurso
+L1|Ana Rosa,L2|Ana Rosa,transferencia
+L1|Paraiso,L1|Vergueiro,percurso
+L1|Paraiso,L2|Paraiso,transferencia
+L1|Vergueiro,L1|Sao Joaquim,percurso
+L1|Sao Joaquim,L1|Japao-Liberdade,percurso
+L1|Japao-Liberdade,L1|Se,percurso
+L1|Se,L1|Sao Bento,percurso
+L1|Se,L3|Se,transferencia
+L1|Sao Bento,L1|Luz,percurso
+L1|Luz,L1|Tiradentes,percurso
+L1|Luz,L4|Luz,transferencia
+L1|Tiradentes,L1|Armenia,percurso
+L1|Armenia,L1|Portuguesa-Tiete,percurso
+L1|Portuguesa-Tiete,L1|Carandiru,percurso
+L1|Carandiru,L1|Santana,percurso
+L1|Santana,L1|Jardim Sao Paulo-Ayrton Senna,percurso
+L1|Jardim Sao Paulo-Ayrton Senna,L1|Parada Inglesa,percurso
+L1|Parada Inglesa,L1|Tucuruvi,percurso
+L2|Vila Prudente,L2|Tamanduatei,percurso
+L2|Vila Prudente,L15|Vila Prudente,transferencia
+L2|Tamanduatei,L2|Sacoma,percurso
+L2|Sacoma,L2|Alto do Ipiranga,percurso
+L2|Alto do Ipiranga,L2|Santos-Imigrantes,percurso
+L2|Santos-Imigrantes,L2|Chacara Klabin,percurso
+L2|Chacara Klabin,L2|Ana Rosa,percurso
+L2|Chacara Klabin,L5|Chacara Klabin,transferencia
+L2|Ana Rosa,L2|Paraiso,percurso
+L2|Paraiso,L2|Brigadeiro,percurso
+L2|Brigadeiro,L2|Trianon-Masp,percurso
+L2|Trianon-Masp,L2|Consolacao,percurso
+L2|Consolacao,L2|Clinicas,percurso
+L2|Consolacao,L4|Paulista,transferencia
+L2|Clinicas,L2|Sumare,percurso
+L2|Sumare,L2|Vila Madalena,percurso
+L3|Corinthians-Itaquera,L3|Artur Alvim,percurso
+L3|Artur Alvim,L3|Patriarca-Vila Re,percurso
+L3|Patriarca-Vila Re,L3|Guilhermina-Esperanca,percurso
+L3|Guilhermina-Esperanca,L3|Vila Matilde,percurso
+L3|Vila Matilde,L3|Penha,percurso
+L3|Penha,L3|Carrao,percurso
+L3|Carrao,L3|Tatuape,percurso
+L3|Tatuape,L3|Belem,percurso
+L3|Belem,L3|Bresser-Mooca,percurso
+L3|Bresser-Mooca,L3|Bras,percurso
+L3|Bras,L3|Pedro II,percurso
+L3|Pedro II,L3|Se,percurso
+L3|Se,L3|Anhangabau,percurso
+L3|Anhangabau,L3|Republica,percurso
+L3|Republica,L3|Santa Cecilia,percurso
+L3|Republica,L4|Republica,transferencia
+L3|Santa Cecilia,L3|Marechal Deodoro,percurso
+L3|Marechal Deodoro,L3|Palmeiras-Barra Funda,percurso
+L4|Vila Sonia,L4|Sao Paulo-Morumbi,percurso
+L4|Sao Paulo-Morumbi,L4|Butanta,percurso
+L4|Butanta,L4|Pinheiros,percurso
+L4|Pinheiros,L4|Faria Lima,percurso
+L4|Faria Lima,L4|Fradique Coutinho,percurso
+L4|Fradique Coutinho,L4|Oscar Freire,percurso
+L4|Oscar Freire,L4|Paulista,percurso
+L4|Paulista,L4|Higienopolis-Mackenzie,percurso
+L4|Higienopolis-Mackenzie,L4|Republica,percurso
+L4|Republica,L4|Luz,percurso
+L5|Capao Redondo,L5|Campo Limpo,percurso
+L5|Campo Limpo,L5|Vila das Belezas,percurso
+L5|Vila das Belezas,L5|Giovanni Gronchi,percurso
+L5|Giovanni Gronchi,L5|Santo Amaro,percurso
+L5|Santo Amaro,L5|Largo Treze,percurso
+L5|Largo Treze,L5|Adolfo Pinheiro,percurso
+L5|Adolfo Pinheiro,L5|Alto da Boa Vista,percurso
+L5|Alto da Boa Vista,L5|Borba Gato,percurso
+L5|Borba Gato,L5|Brooklin,percurso
+L5|Brooklin,L5|Campo Belo,percurso
+L5|Campo Belo,L5|Eucaliptos,percurso
+L5|Campo Belo,L17|Campo Belo,transferencia
+L5|Eucaliptos,L5|Moema,percurso
+L5|Moema,L5|AACD-Servidor,percurso
+L5|AACD-Servidor,L5|Hospital Sao Paulo,percurso
+L5|Hospital Sao Paulo,L5|Santa Cruz,percurso
+L5|Santa Cruz,L5|Chacara Klabin,percurso
+L15|Vila Prudente,L15|Oratorio,percurso
+L15|Oratorio,L15|Sao Lucas,percurso
+L15|Sao Lucas,L15|Camilo Haddad,percurso
+L15|Camilo Haddad,L15|Vila Tolstoi,percurso
+L15|Vila Tolstoi,L15|Vila Uniao,percurso
+L15|Vila Uniao,L15|Jardim Planalto,percurso
+L15|Jardim Planalto,L15|Sapopemba,percurso
+L15|Sapopemba,L15|Fazenda da Juta,percurso
+L15|Fazenda da Juta,L15|Sao Mateus,percurso
+L15|Sao Mateus,L15|Jardim Colonial,percurso
+L17|Morumbi,L17|Chucri Zaidan,percurso
+L17|Chucri Zaidan,L17|Vila Cordeiro,percurso
+L17|Vila Cordeiro,L17|Campo Belo,percurso
+L17|Campo Belo,L17|Vereador Jose Diniz,percurso
+L17|Vereador Jose Diniz,L17|Brooklin Paulista,percurso
+L17|Brooklin Paulista,L17|Aeroporto de Congonhas,percurso
+L17|Brooklin Paulista,L17|Washington Luis,percurso
